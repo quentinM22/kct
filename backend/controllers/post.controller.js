@@ -58,9 +58,9 @@ const deletePost = async(req,res,next)=>{
     try {
         const dataParams = req.params
         const id = dataParams.id
-        const post = await Post.findById(id)
+        const deletePost = await Post.findById(id)
         await Post.findByIdAndDelete(id)
-        res.status(200).json({message: `Post '${post.title}' Suprimer avec Succès`})
+        res.status(200).json({message: `Post '${deletePost.title}' Suprimer avec Succès`})
     } catch (error) {
         res.status(400).json({message: `Problème suppression données ${error}`})
     }
