@@ -1,5 +1,6 @@
 const Post = require('../models/Post.Model')
 
+
 // Get 
 // Get ALL
 const getAllPost = async(req,res,next)=>{
@@ -26,10 +27,12 @@ const getOnePost = async(req,res,next)=>{
 //Post one post
 const postCreatPost = async(req,res,next)=> {
     try {
+        const dataFile = req.file
         const dataBody = req.body
         const post = Post.create({
             title: dataBody.title,
             subtitle: dataBody.subtitle,
+            image: "/data/uploads/" + dataFile.filename
         })
         return res.status(200).json(post)
     } catch (error) {

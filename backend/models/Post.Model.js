@@ -10,7 +10,7 @@ const postSchema = new mongoose.Schema({
     // status: { type: String,
     //     enum: ["DRAFT", "PUBLISHED"]},
     // author: {type: mongoose.Types.ObjectId, ref:"User"},
-    images: String,
+    image: String,
     date: {
         type: Date,
         default: Date.now()
