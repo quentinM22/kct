@@ -1,5 +1,6 @@
 const Post = require('../models/Post.Model')
-
+const fs = require('fs');
+const path = require('path')
 
 // Get 
 // Get ALL
@@ -57,13 +58,29 @@ const putUpdatePost = async(req,res,next)=>{
 }
 // Delete
 // Delete one post
+
 const deletePost = async(req,res,next)=>{
     try {
         const dataParams = req.params
         const id = dataParams.id
         const deletePost = await Post.findById(id)
-        await Post.findByIdAndDelete(id)
-        res.status(200).json({message: `Post '${deletePost.title}' Suprimer avec Succès`})
+        // ---if -> post sans image
+        if(!deletePost.image){
+            await Post.findByIdAndDelete(id)
+            res.status(200).json({message: `Post '${deletePost.title}' Suprimer avec Succès`})
+        // ---else -> post avec image
+        }else{
+            const filename = deletePost.image.split('/uploads/')[1];
+            fs.unlink('./public/data/uploads/'+filename,(error)=>{
+                if (error) {
+                    console.log(error);
+                }else{
+                   console.log('Succés: Objet supprimé !') 
+                }   
+            })
+            await Post.findByIdAndDelete(id)
+                res.status(200).json({message: `Post '${deletePost.title}' et fichier ${deletePost.image} Suprimé avec Succès`})      
+            }
     } catch (error) {
         res.status(400).json({message: `Problème suppression données ${error}`})
     }
