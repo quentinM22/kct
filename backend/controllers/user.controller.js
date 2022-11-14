@@ -44,6 +44,8 @@ const login = async (req, res, next) => {
 
         res.status(200).json({
             userId: user._id,
+            success: true,
+            message: "Utilisateur connecté avec succès",
             token: jwt.sign(
                 { userId: user._id },
                 process.env.TOKEN_KEY,
@@ -64,6 +66,8 @@ const login = async (req, res, next) => {
                             }
                             res.status(200).json({
                                 userId: user._id,
+                                success: false,
+                                message: error.errot_message,
                                 token: 'TOKEN'
                             });
                         })
