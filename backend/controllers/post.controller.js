@@ -1,6 +1,7 @@
 const Post = require('../models/Post.Model')
 const fs = require('fs');
-const path = require('path')
+const path = require('path');
+const { INSPECT_MAX_BYTES } = require('buffer');
 
 // Get 
 // Get ALL
@@ -23,7 +24,27 @@ const getOnePost = async(req,res,next)=>{
         res.status(400).json({message: `Problème récupération données ${error}`})
     }
 }
+// Get 3 last Post 
+const getThreeLastPost = async(req,res,next)=>{
+    try {
+        const result = await Post.find()
+        const posts = await result.slice(-3)
+        return res.status(200).json(posts)
+    } catch (error) {
+        res.status(400).json({message: `Problème récupération données ${error}`})
+    }
+}
 
+const getAllPostPaginate = async(req,res,next)=>{
+    try {
+        const limitValue = parseInt(req.query.limit) || 5;
+        const skipValue = parseInt(req.query.skip) || 0;
+        const posts = await Post.find().limit(limitValue).skip(skipValue);
+        res.status(200).send(posts);
+    } catch (error) {
+        res.status(400).json({message: `Problème récupération données ${error}`})
+    }
+}
 // Post 
 //Post one post
 const postCreatPost = async(req,res,next)=> {
@@ -88,6 +109,8 @@ const deletePost = async(req,res,next)=>{
 module.exports = {
     getAllPost,
     getOnePost,
+    getThreeLastPost,
+    getAllPostPaginate,
     postCreatPost,
     putUpdatePost,
     deletePost

@@ -8,6 +8,8 @@ const PostController = require('../controllers/post.controller');
 
 router.get('/getAllPost', PostController.getAllPost)
 router.get('/getOnePost/:id', PostController.getOnePost)
+router.get('/getThreePost/', PostController.getThreeLastPost)
+router.get('/getAllPostPaginate/', PostController.getAllPostPaginate)
 router.post('/postCreatePost', auth, multer, PostController.postCreatPost)
 router.put('/putUpdatePost/:id',auth, PostController.putUpdatePost)
 router.delete('/deletePost/:id',auth, PostController.deletePost)
