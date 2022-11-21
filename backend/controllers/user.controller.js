@@ -78,7 +78,17 @@ const login = async (req, res, next) => {
     }
 
 }
+const dashboard = async(req,res,next)=>{
+    try{
+        const id = req.params.id
+        const user = await User.findById(id)
+        return res.status(200).json(user)
+    }catch(error){
+        res.status(404).json(error)
+    }
+}
 module.exports = {
     signup,
-    login
+    login,
+    dashboard
 }
